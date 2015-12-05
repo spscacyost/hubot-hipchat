@@ -202,17 +202,6 @@ class HipChat extends Adapter
             reply_to: channel
             room: @roomNameFromJid(channel)
 
-        connector.onPrivateMessage (from, message) =>
-          # remove leading @mention name if present and format the message like
-          # "name: message" which is what hubot expects
-          mention_name = connector.mention_name
-          regex = new RegExp "^@?#{mention_name}\\b", "i"
-          message = "#{mention_name}: #{message.replace regex, ""}"
-          handleMessage
-            getAuthor: => @robot.brain.userForId(@userIdFromJid from)
-            message: message
-            reply_to: from
-
       changePresence = (PresenceMessage, user_jid, room_jid, currentName) =>
         # buffer presence events until the roster fetch completes
         # to ensure user data is properly loaded
